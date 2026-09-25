@@ -1,5 +1,5 @@
 package com.harsh.expense_tracker.controller;
-
+import org.springframework.web.bind.annotation.CrossOrigin;
 import com.harsh.expense_tracker.entity.Expense;
 import com.harsh.expense_tracker.service.ExpenseService;
 import jakarta.validation.Valid;
@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 public class ExpenseController {
    private final ExpenseService expenseService;
