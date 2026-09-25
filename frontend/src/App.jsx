@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import "./App.css";
 
 function App() {
+  const API_URL = import.meta.env.VITE_API_URL;
+
   const [title, setTitle] = useState("");
   const [amount, setAmount] = useState("");
   const [expenses, setExpenses] = useState([]);
@@ -13,11 +15,9 @@ function App() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    fetch("http://localhost:8080/expenses")
+    fetch(`${API_URL}/expenses`)
       .then((response) => {
-        if (!response.ok) {
-          throw new Error("Failed to fetch expenses");
-        }
+        if (!response.ok) throw new Error("Failed to fetch expenses");
         return response.json();
       })
       .then((data) => {
@@ -59,7 +59,7 @@ function App() {
       amount: Number(amount),
     };
 
-    fetch("http://localhost:8080/expenses", {
+    fetch(`${API_URL}/expenses`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -67,9 +67,7 @@ function App() {
       body: JSON.stringify(newExpense),
     })
       .then((response) => {
-        if (!response.ok) {
-          throw new Error("Failed to add expense");
-        }
+        if (!response.ok) throw new Error("Failed to add expense");
         return response.json();
       })
       .then((data) => {
@@ -82,13 +80,11 @@ function App() {
   }
 
   function deleteExpense(id) {
-    fetch(`http://localhost:8080/expenses/${id}`, {
+    fetch(`${API_URL}/expenses/${id}`, {
       method: "DELETE",
     })
       .then((response) => {
-        if (!response.ok) {
-          throw new Error("Failed to delete expense");
-        }
+        if (!response.ok) throw new Error("Failed to delete expense");
 
         setExpenses((prevExpenses) =>
           prevExpenses.filter((expense) => expense.id !== id)
@@ -116,7 +112,7 @@ function App() {
       amount: Number(amount),
     };
 
-    fetch(`http://localhost:8080/expenses/${id}`, {
+    fetch(`${API_URL}/expenses/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -124,9 +120,7 @@ function App() {
       body: JSON.stringify(updatedExpense),
     })
       .then((response) => {
-        if (!response.ok) {
-          throw new Error("Failed to update expense");
-        }
+        if (!response.ok) throw new Error("Failed to update expense");
         return response.json();
       })
       .then((data) => {
